@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Time Zones</title>
+</head>
+
+<body>
+<select class="dropdow-region0">
+    <option value="">Select a Region</option>
+</select>
+<br>
+<select class="dropdow-region1" disabled>
+  <option value="">Select a Time Zone</option>
+</select>
+</div>
+
+<script src="zones.js"></script>
+<script>
+var rdrop = document.querySelector('.dropdow-region0');
+var tzdrop = document.querySelector('.dropdow-region1');
+
+regions.forEach(function(r) {
+  var option = document.createElement('option');
+  option.text = r.label;
+  option.value = r.value;
+  rdrop.add(option);
+});
+rdrop.addEventListener('change', function() {
+  clearOptions(tzdrop);
+  var r = regions.find(function(r) {
+    return r.value === rdrop.value;
+  });
+  if (r === undefined) {
+    tzdrop.disabled = true;
+    return;
+  }
+  tzdrop.disabled = false;
+  r.timezones.forEach(function(r) {
+    var option = document.createElement('option');
+    option.text = r.label;
+    option.value = r.value;
+    tzdrop.add(option);
+  });
+}, false);
+tzdrop.addEventListener('change', function() {
+  if (tzdrop.value === '') {
+    return;
+  }
+  console.log('selected ' + tzdrop.value);
+}, false);
+
+function clearOptions(s) {
+  var l = s.options.length;
+  for (var i=l; i > 0; i--) {
+    s.remove(i);
+  }
+}
+
+</script>
+</body>
+</html>
